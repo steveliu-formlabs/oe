@@ -246,7 +246,7 @@ def prompt1(prompt_stack):
         subprocess.check_output(cmd)
         prompt_stack.append(11)
     else:
-        info = {'title': 'Formlabs Calibration OS', 'subtitle': 'partitioning disk...', 'sleep': '1'}
+        info = {'title': 'Formlabs Calibration OS', 'subtitle': 'partitioning disk...1/5', 'sleep': '1'}
         m = CursesInfo(info)
         m.display()
         # partition the disk `fdisk /dev/sdx`
@@ -255,7 +255,7 @@ def prompt1(prompt_stack):
         _ = p.communicate(input=b'n\np\n1\n\n\nw\n')[0]
         m.clear()
 
-        info = {'title': 'Formlabs Calibration OS', 'subtitle': 'formatting disk...', 'sleep': '1'}
+        info = {'title': 'Formlabs Calibration OS', 'subtitle': 'formatting disk...2/5', 'sleep': '1'}
         m = CursesInfo(info)
         m.display()
         # make the ext4 file system
@@ -268,7 +268,7 @@ def prompt1(prompt_stack):
         subprocess.check_output(cmd)
         m.clear()
 
-        info = {'title': 'Formlabs Calibration OS', 'subtitle': 'mounting file system...', 'sleep': '1'}
+        info = {'title': 'Formlabs Calibration OS', 'subtitle': 'mounting file system...3/5', 'sleep': '1'}
         m = CursesInfo(info)
         m.display()
         # mount the partition `mount /dev/sdx1 /mnt`
@@ -280,7 +280,7 @@ def prompt1(prompt_stack):
         cmd = ['mount', '-o', 'loop', '/formlabs-rootfs-image-intel-corei7-64.ext4', '/media']
         subprocess.check_output(cmd)
 
-        info = {'title': 'Formlabs Calibration OS', 'subtitle': 'copying file system...', 'sleep': '1'}
+        info = {'title': 'Formlabs Calibration OS', 'subtitle': 'copying file system...4/5', 'sleep': '1'}
         m = CursesInfo(info)
         m.display()
         # copy the file system `cp -a /media/* /mnt`
@@ -288,7 +288,7 @@ def prompt1(prompt_stack):
         subprocess.check_output(cmd)
         m.clear()
 
-        info = {'title': 'Formlabs Calibration OS', 'subtitle': 'booting file system...', 'sleep': '1'}
+        info = {'title': 'Formlabs Calibration OS', 'subtitle': 'booting file system...5/5', 'sleep': '1'}
         m = CursesInfo(info)
         m.display()
         # grub install `grub-install --force --recheck --root-directory=/mnt /dev/sdx`
@@ -316,7 +316,7 @@ menuentry 'Formlabs Calibration OS' {{
 def prompt11(prompt_stack):
     info = {
         'title': 'Formlabs Calibration OS',
-        'subtitle': 'Reboot in 5 second and continue to install...',
+        'subtitle': 'Format the disk. Reboot in 5 seconds...',
         'sleep': '5'
     }
     m = CursesInfo(info)
@@ -328,7 +328,7 @@ def prompt11(prompt_stack):
 def prompt12(prompt_stack):
     info = {
         'title': 'Formlabs Calibration OS',
-        'subtitle': 'Successful Installation. Please remove the USB. Reboot in 5 second...',
+        'subtitle': 'Successful Installation. Please remove the USB. Reboot in 5 seconds...',
         'sleep': '5'
     }
     m = CursesInfo(info)

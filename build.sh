@@ -73,21 +73,28 @@ function build-rootfs-image {
     if [ ! -d ${DPDK_DIR} ]; then
         cd ${OE_CORE_DIR} && git clone git://git.yoctoproject.org/meta-dpdk
     fi
-    cd ${DPDK_DIR} && git checkout sumo &&
+    cd ${DPDK_DIR} && git checkout sumo
 
     # meta-lxde
     LXDE_DIR=${OE_CORE_DIR}/meta-lxde
     if [ ! -d ${LXDE_DIR} ]; then
         cd ${OE_CORE_DIR} && git clone git://git.toradex.com/meta-lxde.git
     fi
-    cd ${LXDE_DIR} && git checkout rocko &&
+    cd ${LXDE_DIR} && git checkout rocko
 
     # meta-virtualization
     VIR_DIR=${OE_CORE_DIR}/meta-virtualization
     if [ ! -d ${VIR_DIR} ]; then
         cd ${OE_CORE_DIR} && git clone git://git.yoctoproject.org/meta-virtualization
     fi
-    cd ${VIR_DIR} && git checkout rocko &&
+    cd ${VIR_DIR} && git checkout rocko
+
+    # meta-browser
+    BROW_DIR=${OE_CORE_DIR}/meta-browser
+    if [ ! -d ${BROW_DIR} ]; then
+        cd ${OE_CORE_DIR} && git clone git://github.com/OSSystems/meta-browser.git
+    fi
+    cd ${BROW_DIR} && git checkout master
 
     # meta-formlbas
     FORMLABS_DIR=${OE_CORE_DIR}/meta-formlabs
@@ -162,21 +169,21 @@ function build-bootable-usb-image {
     if [ ! -d ${DPDK_DIR} ]; then
         cd ${OE_CORE_DIR} && git clone git://git.yoctoproject.org/meta-dpdk
     fi
-    cd ${DPDK_DIR} && git checkout sumo &&
+    cd ${DPDK_DIR} && git checkout sumo
 
     # meta-lxde
     LXDE_DIR=${OE_CORE_DIR}/meta-lxde
     if [ ! -d ${LXDE_DIR} ]; then
         cd ${OE_CORE_DIR} && git clone git://git.toradex.com/meta-lxde.git
     fi
-    cd ${LXDE_DIR} && git checkout rocko &&
+    cd ${LXDE_DIR} && git checkout rocko
 
     # meta-virtualization
     VIR_DIR=${OE_CORE_DIR}/meta-virtualization
     if [ ! -d ${VIR_DIR} ]; then
         cd ${OE_CORE_DIR} && git clone git://git.yoctoproject.org/meta-virtualization
     fi
-    cd ${VIR_DIR} && git checkout rocko &&
+    cd ${VIR_DIR} && git checkout rocko
 
     # meta-formlbas
     FORMLABS_DIR=${OE_CORE_DIR}/meta-formlabs
@@ -205,11 +212,13 @@ function build-bootable-usb-image {
     # build image
     cd ${BUILD_DIR} && bitbake formlabs-bootable-usb-image
 
+    # copy .iso to current directory
+    BOOT_ISO=${BOOT_USB_DIR}/openembedded-core/build/tmp-glibc/deploy/images/intel-corei7-64/formlabs-bootable-usb-image-intel-corei7-64.iso
+    cp ${BOOT_ISO} ${BUILD_SCRIPT_DIR}
 }
 
-
 function main {
-#    install-packages
+    install-packages
     build-rootfs-image
     build-bootable-usb-image
 }

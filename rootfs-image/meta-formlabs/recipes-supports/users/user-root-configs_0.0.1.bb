@@ -11,7 +11,7 @@ SRC_URI = " \
     "
 
 LIC_FILES_CHKSUM = " \
-    file://.xinitrc;md5=fb6f7726d07f37ab664e59ce197cf6ab \
+    file://.xinitrc;md5=e9b8f9e70efa254defdf18a9cdb13287 \
     "
 
 S = "${WORKDIR}"

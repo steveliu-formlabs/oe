@@ -1,0 +1,41 @@
+From de69555afaf05efcdeea7b7c20c6f7b12f3e1bac Mon Sep 17 00:00:00 2001
+From: Mark Asselstine <mark.asselstine@windriver.com>
+Date: Fri, 20 Jan 2017 11:58:44 -0500
+Subject: [PATCH] context: use golang.org/x/net pkg until we move to go 1.7
+
+In go 1.6 the context.go is not yet integrated and as such we will get
+build errors like:
+
+walwrap.go:4:2: cannot find package "context" in any of:
+...
+
+Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+---
+ pkg/term/termios_bsd.go                           |    3 +-
+ pkg/term/termios_linux.go                         |    3 +-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
+
+--- a/src/import/pkg/term/termios_bsd.go
++++ b/src/import/pkg/term/termios_bsd.go
+@@ -27,7 +27,8 @@ func MakeRaw(fd uintptr) (*State, error)
+ 
+ 	newState := oldState.termios
+ 	newState.Iflag &^= (unix.IGNBRK | unix.BRKINT | unix.PARMRK | unix.ISTRIP | unix.INLCR | unix.IGNCR | unix.ICRNL | unix.IXON)
+-	newState.Oflag &^= unix.OPOST
++	newState.Oflag &^= unix.OPOST
++	newState.Oflag |= (0x02 | 0x04)
+ 	newState.Lflag &^= (unix.ECHO | unix.ECHONL | unix.ICANON | unix.ISIG | unix.IEXTEN)
+ 	newState.Cflag &^= (unix.CSIZE | unix.PARENB)
+ 	newState.Cflag |= unix.CS8
+--- a/src/import/pkg/term/termios_linux.go
++++ b/src/import/pkg/term/termios_linux.go
+@@ -26,7 +26,8 @@ func MakeRaw(fd uintptr) (*State, error)
+ 	newState := oldState.termios
+ 
+ 	newState.Iflag &^= (unix.IGNBRK | unix.BRKINT | unix.PARMRK | unix.ISTRIP | unix.INLCR | unix.IGNCR | unix.ICRNL | unix.IXON)
+-	newState.Oflag &^= unix.OPOST
++	newState.Oflag &^= unix.OPOST
++	newState.Oflag |= (0x02 | 0x04)
+ 	newState.Lflag &^= (unix.ECHO | unix.ECHONL | unix.ICANON | unix.ISIG | unix.IEXTEN)
+ 	newState.Cflag &^= (unix.CSIZE | unix.PARENB)
+ 	newState.Cflag |= unix.CS8

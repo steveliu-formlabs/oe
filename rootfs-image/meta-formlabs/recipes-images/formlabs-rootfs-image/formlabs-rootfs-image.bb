@@ -17,6 +17,7 @@ EXTRA_USERS_PARAMS = "\
   usermod -P root root; \
   usermod -s /bin/bash formlabs; \
   usermod -aG adm formlabs; \
+  usermod -aG cdrom formlabs; \
   usermod -aG sudo formlabs; \
   usermod -aG dialout formlabs; \
   usermod -aG audio formlabs; \
